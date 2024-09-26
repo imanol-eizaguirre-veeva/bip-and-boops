@@ -1,0 +1,47 @@
+services:
+  backend:
+    image: python:3.12
+    container_name: backend
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    command: fastapi run app/main.py --port 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+
+  frontend:
+    image: node:18
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run start
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+  database:
+    image: mongo:8.0.0
+    container_name: mongo
+    build:
+      context: .
+      dockerfile: ./docker/mongo/Dockerfile
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

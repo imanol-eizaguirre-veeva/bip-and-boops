@@ -1,0 +1,11 @@
+bcrypt==4.0.1  # last version supported by passlib
+black==24.8.0 
+fastapi[standard]==0.114.2
+motor==3.6.0
+passlib[bycript]==1.7.4 
+pycountry==24.6.1 
+pydantic-extra-types==2.9.0
+pydantic-settings==2.5.2
+PyJWT==2.9.0 
+pymongo==4.9.1
+pytest==8.3.3

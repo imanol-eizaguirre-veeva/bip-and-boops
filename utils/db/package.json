@@ -1,0 +1,11 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "scripts": {
+    "testdb": "node ./testdb.js"
+  },
+  "dependencies": {
+    "mongodb-memory-server-global": "^10.0.1",
+    "prompt-sync": "^4.2.0"
+  }
+}
