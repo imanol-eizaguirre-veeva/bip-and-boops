@@ -1,11 +1,7 @@
 from typing import Any
-from uuid import UUID, uuid4
+from uuid import UUID
 
-from pydantic import (
-    BaseModel,
-    Field,
-    UUID4,
-)
+from pydantic import BaseModel, Field, UUID4, field_validator
 
 
 class PageBase(BaseModel):
@@ -16,4 +12,16 @@ class PageBase(BaseModel):
     information that will be passed in the responses.
     """
 
-    page_id: UUID = Field(alias="pageID", default_factory=uuid4)
+    # We define this value as a string because this is how we are storing it
+    # in the database, and how it is displayed after serialization.
+    # There is a custom validator to verify that it can be trasnformed to a
+    # valid UUID4 object.
+    page_id: str = Field(alias="pageID")
+
+    @field_validator("page_id")
+    def is_valid_uuid4(cls, value: str):
+        try:
+            UUID(value, version=4)
+        except ValueError:
+            raise ValueError(f"{value} is not a valid UUID4")
+        return value

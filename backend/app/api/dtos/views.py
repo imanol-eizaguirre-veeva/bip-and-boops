@@ -1,7 +1,8 @@
-from datetime import datetime
-from typing import Annotated, List, Optional
+from datetime import datetime, timezone
+from typing import Annotated, Optional
 
 from pydantic import Field
+from pydantic import AwareDatetime
 from pydantic.functional_validators import BeforeValidator
 from pydantic_extra_types.country import CountryShortName
 
@@ -46,7 +47,10 @@ class ViewPublic(ViewCreate):
     """
 
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
-    utc_date_time: datetime = Field(alias="UTCDateTime")
+    utc_date_time: AwareDatetime = Field(
+        alias="UTCDateTime",
+        default=datetime.now(timezone.utc),
+    )
 
     model_config = {
         "json_schema_extra": {

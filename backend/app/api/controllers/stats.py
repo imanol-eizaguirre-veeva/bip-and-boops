@@ -22,7 +22,7 @@ logger = logging.getLogger("uvicorn.error")
     response_model=StatsBase,
     status_code=status.HTTP_200_OK,
 )
-async def get_pages_list(
+async def get_stats_for_page_last_30_min(
     current_user: Annotated[User, Depends(get_current_active_user)],
     page_id: Annotated[str, Path(title="The UUID of the page to get")],
 ) -> Any:

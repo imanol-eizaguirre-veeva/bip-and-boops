@@ -1,17 +1,12 @@
 import logging
 
-from datetime import datetime
+from datetime import datetime, timezone
 from pydantic_extra_types.country import CountryShortName
-from typing import Any, List, Optional
-from zoneinfo import ZoneInfo
+from typing import List, Optional
 
-from ...core.config import settings
-from ...core.database import view_collection
+from ...core.database import tz_aware_views_collection, view_collection
 from ..dtos.pages import PageBase
-from ..dtos.views import (
-    ViewCreate,
-    ViewPrivate,
-)
+from ..dtos.views import ViewPrivate
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -38,8 +33,8 @@ async def get_views(
                 mode="json",
             )
         )
-
-    return await view_collection.find(query_filters).to_list()
+    # for the return value, use the tz aware `find_one`
+    return await tz_aware_views_collection.find(query_filters).to_list()
 
 
 async def add_new_view(
@@ -49,12 +44,17 @@ async def add_new_view(
     """
     Create a new view.
     """
+
     validated_data = ViewPrivate(
         userID=user_id,
-        UTCDateTime=datetime.now(ZoneInfo(settings.TIMEZONE)),
+        UTCDateTime=datetime.now(timezone.utc),
         **data.model_dump(by_alias=True),
     )
+    # TODO: insert UUID as str
     new_view = await view_collection.insert_one(
-        validated_data.model_dump(by_alias=True, exclude=["id"], mode="json")
+        validated_data.model_dump(by_alias=True, exclude=["id"])
     )
-    return await view_collection.find_one({"_id": new_view.inserted_id})
+    # for the return value, use the tz aware `find_one`
+    return await tz_aware_views_collection.find_one(
+        {"_id": new_view.inserted_id}
+    )
