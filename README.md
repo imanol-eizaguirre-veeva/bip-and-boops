@@ -49,104 +49,20 @@ docker-compose up
 
 You should see logs from the 3 services: `backend`, `mongo`, `frontend`.
 
-## Run the Backend tests
-
-You can run the tests by simply running:
+Additionally you can run the tests by simply running:
 
 ```bash
 docker exec -it backend pytest
 ```
 
-# Running the project in your machine
+# Usage
 
-## Backend
-
-You will need to run this project in a virtual environment to ensure that the 
-libraries required for this code to work are isolated from the ones in your system.
-
-In case you don't have [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html)
-already installed, please run the following (`pipxp` will ensure that `virtualenv` 
-is installed into an isolated environment):
-
-```bash
-pipx install virtualenv
-```
-
-#### Create a virtual environment and install the requirements
-Create the environment (creates a folder in your current directory)
-
-```bash
-virtualenv env_name
-```
-
-In Linux or Mac, activate the new python environment:
-
-```bash
-source env_name/bin/activate
-```
-
-If you are on Windows:
-
-```bash
-.\env_name\Scripts\activate
-```
-
-Confirm that the env is successfully selected by running:
-
-```bash
-which python3
-```
-
-Now you are ready to install the requirements:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Run the project
-
-The code is in the `api` folder:
-
-1. Access the backend folder (`cd backend`)
-2. Run the server: `fastapi run app/main.py`
-3. In a browser, open: `http://0.0.0.0:8000`
-
-
-### Run the Backend tests
-
-You can run the tests by simply running:
-
-```bash
-pytest
-```
-
-## MongoDB
-
-We made an in-memory MongoDB available in case you run it manually. You can
-launch it by following these steps:
-
-1. Navigate to the `util/db` folder
-2. Install dependencies: `npm ci`
-3. Start: `npm run testdb`
-
-## Frontend
-
-The code is in the `ui` folder:
-
-1. Navigate to the `ui` folder
-2. Install dependencies: `npm ci`
-3. Start: `npm run start`
-4. In a browser, open `http://0.0.0.0:4200`
-
-
-# OpenAPI Documentation
+## OpenAPI Documentation
 
 This project contains OpenAPI automatic UI documentation:
 
 * Swagger UI is found on `/docs`
 * ReDoc UI is found on  `/redoc`
-
-# Usage
 
 ## Authentication
 
