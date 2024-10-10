@@ -6,7 +6,7 @@ from ...core.database import view_collection
 logger = logging.getLogger("uvicorn.error")
 
 
-async def get_user_count_in_period(
+async def get_active_users_count_in_period(
     page_id: str,
     start_date: int,
 ) -> int:

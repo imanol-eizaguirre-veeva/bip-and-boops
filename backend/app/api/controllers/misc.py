@@ -7,7 +7,7 @@ logger = logging.getLogger("uvicorn.error")
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-async def get_pages_list():
+async def default_route():
     """
     Welcome page.
     """

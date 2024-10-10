@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, status
 from ..dtos.auth import User
 
 from ..services.auth import get_current_active_user
-from ..services.pages import get_discting_page_views
+from ..services.pages import get_distinct_page_views
 
 router = APIRouter()
 logger = logging.getLogger("uvicorn.error")
@@ -23,4 +23,4 @@ async def get_pages_list(
     """
     Retrieve the list of distinct page IDs.
     """
-    return await get_discting_page_views()
+    return await get_distinct_page_views()
