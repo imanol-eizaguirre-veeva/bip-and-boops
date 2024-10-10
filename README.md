@@ -118,3 +118,20 @@ Example Payload:
   "browser": "Firefox" // can be alphanumeric, useful if version have to be specified
 }
 ```
+
+# Exercise
+
+When checking the views per page (test data is in the DB when you start it), we 
+have a stat “Active users in the last 30mins”. 
+
+We’d like to have a second stat that gives the number of “Recurring users in 
+the last hour for a given page”, i.e. such users from the DB that visited the 
+same page twice or more within the last hour.
+
+## Acceptance Criteria
+
+* Extend the backend API to have another endpoint for the statistic described in 
+the task above. The endpoint should take the request parameters and return the 
+computed statistic “Recurring users in the last hour for a given page”.
+* Extend the frontend dashboard page to call the API and show the statistic in a 
+second graph component.
