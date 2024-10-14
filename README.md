@@ -54,7 +54,7 @@ The project has the following endpoints:
 `POST /api/v1/view`
 * Registers a new view for a page.
 
-This project contains OpenAPI automatic UI documentation that cab found on 
+This project contains OpenAPI automatic UI documentation that can be found on 
 http://localhost:8000/docs.
 
 This offers a friendlier and easier to use interface that the command line,
