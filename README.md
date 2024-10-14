@@ -1,44 +1,86 @@
-# Job Skills Call
+# Bip and Boops
 
-Clone the repository, follow the installation instructions below and start the 
-application as documented. 
+This exercise tries to replicate a regular-day-task at work.
+
+Clone the repository, follow the instructions below, and once you have understood 
+the task, start the application as documented.
 
 Look around, familiarize yourself with the code structure and feel free to ask 
-questions at any time.
+questions at any time. The interviewers in the call are there to support you.
 
-# Prerequesites
+## Project Description
 
-This project can be run easily with [Docker](https://www.docker.com/). Alternatively, 
-you can also run it  directly on your operative system, and for that, you would 
-need the following:
+This is a fullstack project that replicates the behaviour of Googe Analytics:
 
-Backend:
+* Each document in the database represents a page view.
+* A simple frontend UI displays the list of different pages and their stats.
+* An API to retrieve the data, and to add new records.
 
-* Python 3.12
-* pipx
+Visiting the stats of a page in the frontend UI won't add a page view in the
+database, in the same way Google Analytics does not register page views for the 
+pages when you check their stats within Google Analytics. 
+This can only be done by using the API.
 
-Frontend:
+## Data Schema
 
-* Node >= v18
+Example of a database document:
 
-Disclaimer: A preconfigured `.env` file is provided as part of the repository,
-although normally this file would be excluded from it.
+```json
+{
+  "pageID": "38f92553-00a3-43d1-91fb-9329ce2f3673",
+  "UTCDateTime": "2024-09-25T13:21:43.951+00:00",
+  "country": "Germany",
+  "browser": "Firefox" ,
+  "userID" : "2",
+}
+```
 
+## API Endpoints
 
-# Running the project with Docker
+The project has the following endpoints:
 
-If you have Docker installed in your machine, you simply need to build the 
-containers by executing the following command from the root of the project:
+`GET /api/v1/page`
+* returns the list of unique page IDs (used in the UI to simplify access to the page statistics)
+
+`GET /api/v1/stats/page/:pageID/active`
+* returns the number of unique users that visited a page (identified by `:pageID`, a UUIDv4) in the last 30 minutes (you'll get this data when accessing the page details in the UI).
+
+`GET /api/v1/view?countries[]=Germany&countries[]=...&browsers[]=Germany&browsers[]=...`
+* returns the list of page views, with the option to filter by country and browser
+
+`GET /api/v1/view/page/:pageID`
+* returns all the page views for a single page.
+
+`POST /api/v1/view`
+* Registers a new view for a page.
+
+This project contains OpenAPI automatic UI documentation that cab found on 
+http://localhost:8000/docs.
+
+This offers a friendlier and easier to use interface that the command line,
+although you are free to use whatever you prefer.
+
+# Exercise
+
+In our API we have a stat called “Active users in the last 30 mins”, and we'd 
+like to have an additional stat.
+
+This new one should retrieve the number of “Recurring users in 
+the last hour for a given page”. This means: the number of users that visited
+a page at least twice during the last hour.
+
+## Acceptance Criteria
+
+* Extend the backend API to have another endpoint for the statistic described 
+above. The endpoint should take the request parameters and return the 
+computed statistic “Recurring users in the last hour for a given page”.
+
+# Run the project
+
+You need to build the containers by executing the following command from the root of the project:
 
 ```bash
 docker-compose build
-```
-
-which should give you the following output if everything worked out (the time
-will vary depending on your machine's specifications):
-
-```
-[+] Building 17.0s (32/32) FINISHED
 ```
 
 Afterward, you can run the containers by executing:
@@ -48,21 +90,9 @@ docker-compose up
 ```
 
 You should see logs from the 3 services: `backend`, `mongo`, `frontend`.
+Verify that all 3 of them are running without issues.
 
-Additionally you can run the tests by simply running:
-
-```bash
-docker exec -it backend pytest
-```
-
-# Usage
-
-## OpenAPI Documentation
-
-This project contains OpenAPI automatic UI documentation:
-
-* Swagger UI is found on `/docs`
-* ReDoc UI is found on  `/redoc`
+The UI server listens on port `4200` and the API listens on the port `8000`.
 
 ## Authentication
 
@@ -76,23 +106,6 @@ Which will generate the following token (valid for 1 hour):
 
 `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.1OURXfxWcaT1DOs-abEis6N3RhQfIVWsUjv1VaUyev0`
 
-By default, the UI server listen on port `4200` and the API listen on the port `8000`.
-
-The API endpoints are protected with a JWT, to test queries manually, you can 
-use the token mentioned above and inject it in the `Authorization` header 
-prefixed with `Bearer `.
-
-To simulate another user, you can encode a new payload (e.g. by using 
-`https://jwt.io/` tool), for that, you need to use the algorithm `HS256` and 
-the secret `veeva`. Here is an example of the payload before encoding (sub is 
-the user identifier):
-
-```json
-{
-  "sub": "1234567890"
-}
-```
-
 Request example using cURL:
 
 ```bash
@@ -101,37 +114,5 @@ curl --request GET \
   --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.1OURXfxWcaT1DOs-abEis6N3RhQfIVWsUjv1VaUyev0'
 ```
 
-## API Endpoints
 
-* `GET /api/v1/page`: returns the list of pages defined in the database (this is used in the UI to simplify access to the page statistics)
-* `GET /api/v1/stats/page/:pageID/active`: returns the number of unique users having been active on a page identified by `:pageID` (an UUIDv4 identifier) in a given time period (defined with an environment variable in `apps/api/.env`).
-* `GET /api/v1/view?countries[]=Germany&countries[]=...&browsers[]=Germany&browsers[]=...`: returns the list of views defined in the database with the possibility to provide optional filters for origin country and client browser
-* `GET /api/v1/view/page/:pageID`: returns all the views for a single page.
-* `POST /api/v1/view`: Registers a view in the database.
 
-Example Payload:
-
-```json
-{
-  "pageID": "38f92553-00a3-43d1-91fb-9329ce2f3673", // UUIDv4
-  "country": "Germany", // ISO 3166
-  "browser": "Firefox" // can be alphanumeric, useful if version have to be specified
-}
-```
-
-# Exercise
-
-When checking the views per page (test data is in the DB when you start it), we 
-have a stat “Active users in the last 30mins”. 
-
-We’d like to have a second stat that gives the number of “Recurring users in 
-the last hour for a given page”, i.e. such users from the DB that visited the 
-same page twice or more within the last hour.
-
-## Acceptance Criteria
-
-* Extend the backend API to have another endpoint for the statistic described in 
-the task above. The endpoint should take the request parameters and return the 
-computed statistic “Recurring users in the last hour for a given page”.
-* Extend the frontend dashboard page to call the API and show the statistic in a 
-second graph component.
