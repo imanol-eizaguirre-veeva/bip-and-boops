@@ -22,12 +22,7 @@ app = FastAPI(
 )
 
 # ["*"] won't work when allow_credentials=True
-origins = [
-    # localhosts (to access from the browser)
-    "http://localhost:4200",
-    # 0.0.0.0 (address used inside the frontend code, also from the browser)
-    "http://0.0.0.0:4200",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
