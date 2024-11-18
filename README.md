@@ -21,7 +21,7 @@ docker-compose build
 docker-compose up
 ```
 
-You should see logs from the 3 services: `backend`, `mongo`.
+You should see logs from the 2 services: `backend`, `mongo`.
 Verify that everything is running by accessing `http://localhost:8000/docs`,
 authenticating, and querying the data.
 
