@@ -34,8 +34,6 @@ async def get_active_users_for_page_last_X_min(
     start_date = datetime.now(ZoneInfo(settings.TIMEZONE)) - timedelta(
         milliseconds=period_duration
     )
-    # it's not implementing a 404 in case the page does not exist, but
-    # the Frontend is handling it as 404
     value = await get_active_users_count_in_period(page_id, start_date)
 
     return StatsBase(period_duration=period_duration, value=value)
