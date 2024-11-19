@@ -30,7 +30,7 @@ async def get_active_users_for_page(
     Returns the number of unique users having been active on
     the page in a period of time defined in the settings.
     """
-    period_duration = settings.ANALYTICS_PAGE_UNIQUE_VISITORS_TIME_PERIOD
+    period_duration = settings.ANALYTICS_PAGE_ACTIVE_USERS_TIME_PERIOD
     start_date = datetime.now(ZoneInfo(settings.TIMEZONE)) - timedelta(
         milliseconds=period_duration
     )
