@@ -22,13 +22,13 @@ logger = logging.getLogger("uvicorn.error")
     response_model=StatsBase,
     status_code=status.HTTP_200_OK,
 )
-async def get_active_users_for_page_last_X_min(
+async def get_active_users_for_page(
     current_user: Annotated[User, Depends(get_current_active_user)],
     page_id: Annotated[str, Path(title="The UUID of the page to get")],
 ) -> Any:
     """
     Returns the number of unique users having been active on
-    the page in a given time period
+    the page in a period of time defined in the settings.
     """
     period_duration = settings.ANALYTICS_PAGE_UNIQUE_VISITORS_TIME_PERIOD
     start_date = datetime.now(ZoneInfo(settings.TIMEZONE)) - timedelta(
