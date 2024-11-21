@@ -4,12 +4,10 @@ from datetime import datetime, timedelta
 from typing import Any, Annotated
 from zoneinfo import ZoneInfo
 
-from fastapi import APIRouter, Depends, Path, status
+from fastapi import APIRouter, Path, status
 
 from ...core.config import settings
-from ..dtos.auth import User
 from ..dtos.stats import StatsBase
-from ..services.auth import get_current_active_user
 from ..services.stats import get_active_users_count_in_period
 
 
@@ -23,7 +21,6 @@ logger = logging.getLogger("uvicorn.error")
     status_code=status.HTTP_200_OK,
 )
 async def get_active_users_for_page(
-    current_user: Annotated[User, Depends(get_current_active_user)],
     page_id: Annotated[str, Path(title="The UUID of the page to get")],
 ) -> Any:
     """

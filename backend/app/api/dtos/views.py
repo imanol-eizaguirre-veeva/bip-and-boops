@@ -24,12 +24,14 @@ class ViewCreate(PageBase):
 
     country: CountryShortName  # ISO 3166
     browser: str
+    user_id: str = Field(alias="userID")
 
     model_config = {
         "json_schema_extra": {
             "examples": [
                 {
                     "page_id": "f6943675-1f29-4eef-b0f0-4e47c252a6e7",
+                    "user_id": "1",
                     "country": "Germany",
                     "browser": "Firefox",
                 }
@@ -59,33 +61,9 @@ class ViewPublic(ViewCreate):
                     "_id": "98bcd14f-da02-4fd8-a596-a4f8996001b6",
                     "utc_date_time": "2024-09-20T13:31:37.615+00:00",
                     "page_id": "f6943675-1f29-4eef-b0f0-4e47c252a6e7",
+                    "user_id": "1",
                     "country": "Germany",
                     "browser": "Firefox",
-                }
-            ]
-        }
-    }
-
-
-class ViewPrivate(ViewPublic):
-    """
-    Complete View model representing every field in the database.
-    """
-
-    user_id: str = Field(alias="userID")
-    version: Optional[int] = Field(alias="__v", default=0)
-
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "_id": "98bcd14f-da02-4fd8-a596-a4f8996001b6",
-                    "utc_date_time": "2024-09-20T13:31:37.615+00:00",
-                    "page_id": "f6943675-1f29-4eef-b0f0-4e47c252a6e7",
-                    "country": "Germany",
-                    "browser": "Firefox",
-                    "user_id": "3",
-                    "__v": 0,
                 }
             ]
         }

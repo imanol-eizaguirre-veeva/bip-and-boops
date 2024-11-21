@@ -1,11 +1,8 @@
 import logging
-from typing import Any, Annotated, List
+from typing import List
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, status
 
-from ..dtos.auth import User
-
-from ..services.auth import get_current_active_user
 from ..services.pages import get_distinct_page_views
 
 router = APIRouter()
@@ -17,9 +14,7 @@ logger = logging.getLogger("uvicorn.error")
     response_model=List[str],
     status_code=status.HTTP_200_OK,
 )
-async def get_pages_list(
-    current_user: Annotated[User, Depends(get_current_active_user)],
-):
+async def get_pages_list():
     """
     Retrieve the list of distinct page IDs.
     """

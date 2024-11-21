@@ -21,13 +21,11 @@ app = FastAPI(
     generate_unique_id_function=custom_generate_unique_id,
 )
 
-# ["*"] won't work when allow_credentials=True
 origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

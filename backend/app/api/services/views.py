@@ -6,7 +6,7 @@ from typing import List, Optional
 
 from ...core.database import tz_aware_views_collection, view_collection
 from ..dtos.pages import PageBase
-from ..dtos.views import ViewPrivate
+from ..dtos.views import ViewPublic
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -37,16 +37,12 @@ async def get_views(
     return await tz_aware_views_collection.find(query_filters).to_list()
 
 
-async def add_new_view(
-    data: ViewPrivate,
-    user_id: str,
-):
+async def add_new_view(data: ViewPublic):
     """
     Create a new view.
     """
 
-    validated_data = ViewPrivate(
-        userID=user_id,
+    validated_data = ViewPublic(
         UTCDateTime=datetime.now(timezone.utc),
         **data.model_dump(by_alias=True),
     )
