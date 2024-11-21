@@ -26,15 +26,7 @@ docker-compose up
 
 You should see logs from the 2 services: `backend`, `mongo`.
 
-Verify that everything is running by accessing `http://localhost:8000/docs`,
-authenticating, and querying the data.
-
-## Authentication
-
-You can authenticate using the following parameters:
-
-* username: `1234567890`
-* password: `secret`
+Verify that everything is running by accessing `http://localhost:8000/docs` and querying the data.
 
 ## Data Schema
 

@@ -1,4 +1,3 @@
-from pydantic import MongoDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,12 +10,8 @@ class Settings(BaseSettings):
     ANALYTICS_PAGE_ACTIVE_USERS_TIME_PERIOD: int = 1800000
     API_V1_STR: str = "/api/v1"
     TIMEZONE: str = "Europe/Berlin"
-    # OAuth
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
-    ALGORITHM: str = "HS256"
 
     # Sensitive values that will be read from an .env file, in case it is provided
-    SECRET_KEY: str = "change_me"
     MONGODB_URL: str = "change_me"
 
 
