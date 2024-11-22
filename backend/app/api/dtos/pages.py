@@ -14,7 +14,7 @@ class PageBase(BaseModel):
 
     # We define this value as a string because this is how we are storing it
     # in the database, and how it is displayed after serialization.
-    # There is a custom validator to verify that it can be trasnformed to a
+    # There is a custom validator to verify that it can be transformed to a
     # valid UUID4 object.
     page_id: str = Field(alias="pageID")
 
