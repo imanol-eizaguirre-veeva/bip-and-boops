@@ -19,7 +19,6 @@ should return the number of users that visited a page at least twice during the 
 You need to build the containers by executing the following commands from the root of the project:
 
 ```bash
-docker-compose build
 docker-compose up
 ```
 
